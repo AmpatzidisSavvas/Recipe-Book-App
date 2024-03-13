@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, catchError, tap, throwError } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 export interface AuthResponseData {
   idToken: string;
@@ -26,7 +27,7 @@ export class AuthService {
   signUp(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDOsShASixJBnooYB63NWy5gbDjyi5mBmo',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
         {
           email: email,
           password: password,
@@ -46,7 +47,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDOsShASixJBnooYB63NWy5gbDjyi5mBmo',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
         {
           email: email,
           password: password,
@@ -117,7 +118,7 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
+    let errorMessage = 'An error occurred!';
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(() => errorMessage);
     }
