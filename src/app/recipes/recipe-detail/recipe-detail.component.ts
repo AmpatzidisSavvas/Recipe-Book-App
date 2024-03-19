@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
-import { ActivatedRoute, Params, Route, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { IndividualConfig, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -10,10 +11,11 @@ import { ActivatedRoute, Params, Route, Router } from '@angular/router';
 })
 export class RecipeDetailComponent implements OnInit {
   
+  @ViewChild('triggerToast') triggerToast: ElementRef;
   recipe: Recipe;
   id: number;
 
-  constructor( private recipeService: RecipeService, private route: ActivatedRoute, private router: Router) {}
+  constructor( private recipeService: RecipeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.route.params
@@ -27,6 +29,16 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onAddToShoppingList() {
+
+    const config: Partial<IndividualConfig> = {
+      positionClass: 'toast-center',
+      enableHtml: false,
+      tapToDismiss: true,
+      timeOut: 3000,
+      toastClass: 'toast'
+    };
+    
+    this.toastr.show('Ingrendients added to shopping list!', '', config);
     this.recipeService.onAddIngredientsToShoppingList(this.recipe.ingredients);
   }
 
