@@ -1,1 +1,0 @@
-<p>Recipe book app with Angular</p>
