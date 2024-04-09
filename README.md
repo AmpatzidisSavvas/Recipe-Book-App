@@ -1,1 +1,1 @@
-Recipe book app with Angular
+Recipe Book App with Angular.js and Firebase.
